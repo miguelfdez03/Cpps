@@ -12,9 +12,8 @@
 
 #include "../include/Span.hpp"
 #include <algorithm>
-#include <numeric>
-#include <cstdlib>
 #include <stdexcept>
+#include <climits>
 
 Span::Span() : _maxSize(0)
 {
@@ -51,9 +50,9 @@ void Span::addNumber(int number)
 
 /*
 ** shortestSpan:
-** Sorts a copy of the stored numbers, then uses std::adjacent_difference
-** to compute the differences between consecutive sorted elements.
-** The minimum of those differences is the shortest span.
+** Sorts a copy of the stored numbers, then computes the differences
+** between consecutive sorted elements to find the minimum span.
+** Throws std::overflow_error if any adjacent difference overflows int.
 ** Note: we cannot simply subtract the two lowest numbers — that only works
 ** for longestSpan. The shortest span is the minimum gap between any two
 ** consecutive values in the sorted sequence.
@@ -66,18 +65,23 @@ unsigned int Span::shortestSpan() const
 	std::vector<int> sorted(_numbers);
 	std::sort(sorted.begin(), sorted.end());
 
-	std::vector<int> diffs(sorted.size());
-	std::adjacent_difference(sorted.begin(), sorted.end(), diffs.begin());
-
-	// diffs[0] is sorted[0] itself, skip it; find min from diffs[1] onward
-	return static_cast<unsigned int>(
-		*std::min_element(diffs.begin() + 1, diffs.end()));
+	int minSpan = INT_MAX;
+	for (std::vector<int>::size_type i = 1; i < sorted.size(); ++i)
+	{
+		if (sorted[i - 1] < 0 && sorted[i] > INT_MAX + sorted[i - 1])
+			throw std::overflow_error("Integer overflow in span computation");
+		int diff = sorted[i] - sorted[i - 1];
+		if (diff < minSpan)
+			minSpan = diff;
+	}
+	return static_cast<unsigned int>(minSpan);
 }
 
 /*
 ** longestSpan:
 ** The longest span is simply max_element - min_element.
 ** Uses STL algorithms std::min_element and std::max_element.
+** Throws std::overflow_error if the difference overflows int.
 */
 unsigned int Span::longestSpan() const
 {
@@ -87,6 +91,8 @@ unsigned int Span::longestSpan() const
 	int minVal = *std::min_element(_numbers.begin(), _numbers.end());
 	int maxVal = *std::max_element(_numbers.begin(), _numbers.end());
 
+	if (minVal < 0 && maxVal > INT_MAX + minVal)
+		throw std::overflow_error("Integer overflow in span computation");
 	return static_cast<unsigned int>(maxVal - minVal);
 }
 
