@@ -4,12 +4,6 @@
 # include <vector>
 # include <deque>
 # include <string>
-# include <iostream>
-# include <sstream>
-# include <stdexcept>
-# include <algorithm>
-# include <ctime>
-# include <iomanip>
 # include <cstdlib>
 
 // ─────────────────────────────────────────────────────────────────────────────

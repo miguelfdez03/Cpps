@@ -1,4 +1,5 @@
-#include "PmergeMe.hpp"
+#include "../include/PmergeMe.hpp"
+#include <iostream>
 
 int main(int argc, char **argv)
 {
