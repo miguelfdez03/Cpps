@@ -1,4 +1,7 @@
-#include "RPN.hpp"
+#include "../include/RPN.hpp"
+#include <stack>
+#include <sstream>
+#include <stdexcept>
 
 // ─── Orthodox Canonical Form ────────────────────────────────────────────────
 

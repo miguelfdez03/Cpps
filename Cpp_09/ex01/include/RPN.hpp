@@ -1,12 +1,7 @@
 #ifndef RPN_HPP
 # define RPN_HPP
 
-# include <stack>
 # include <string>
-# include <iostream>
-# include <sstream>
-# include <stdexcept>
-# include <cstdlib>
 
 class RPN
 {

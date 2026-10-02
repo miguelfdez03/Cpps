@@ -1,4 +1,8 @@
-#include "BitcoinExchange.hpp"
+#include "../include/BitcoinExchange.hpp"
+#include <iostream>
+#include <fstream>
+#include <stdexcept>
+#include <cstdlib>
 
 // ─── Orthodox Canonical Form ────────────────────────────────────────────────
 
